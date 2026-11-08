@@ -3,7 +3,7 @@ import plotly.express as px
 import predictor
 
 st.set_page_config(
-    page_title="F1 Race Winnner Predictor",
+    page_title="F1 Race Winner Predictor",
     page_icon="🏎️",
     layout="wide",
 )
@@ -66,7 +66,7 @@ with col2:
     )
 
 # LOAD QUALIFYING
-if st.button("Load Qualifing Results"):
+if st.button("Load Qualifying Results"):
     try:
         with st.spinner("Loading qualifying data..."):
             quali_df = load_qualifing_cached(season, race_name)
@@ -88,7 +88,9 @@ if ("quali_df" in st.session_state and st.button("Predict Race Winner")):
         bundle.le_circuit,
     )
     X_pred = feature_df[bundle.features]
-    feature_df["win_probability"] = bundle.model.predict_proba(X_pred)[:, 1]
+    raw_probability = bundle.model.predict_proba(X_pred)[:, 1]
+    # scale so the whole race adds up to 100% (only one driver can win)
+    feature_df["win_probability"] = raw_probability / raw_probability.sum()
 
     predictions = feature_df[
         ["driver_name", "constructor_name", "grid_position", "win_probability"]

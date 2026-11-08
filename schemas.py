@@ -2,8 +2,8 @@ from pydantic import BaseModel, Field
 from typing import List
 
 class PredictRequest(BaseModel):
-    season : int = Field(..., gt=2018, le=2030, example=2026, description="The season year for the race")
-    race_name : str = Field(..., example="Monaco")
+    season : int = Field(..., ge=2018, le=2030, examples=[2026], description="The season year for the race")
+    race_name : str = Field(..., examples=["Monaco"])
 
 class DriverPrediction(BaseModel):
     driver_name: str

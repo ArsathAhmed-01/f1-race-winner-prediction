@@ -43,7 +43,7 @@ Cross-validation uses `GroupKFold` (5 folds) so the same race never appears in b
 
 | Metric (average of 5 folds) | Value |
 |---|---|
-| Top-3 accuracy | **XX%** |
+| Top-3 accuracy | **X.XX%** |
 | Log loss | **X.XX** |
 
 ## Setup
@@ -94,6 +94,7 @@ F1/
 - The DNF flag is an approximation (`finish_position > 15`), not the real race status.
 - The model needs qualifying results, so it cannot predict before qualifying.
 - Testing on a single race says very little. Use the cross-validation numbers as the real measure.
+- The Streamlit app and API download qualifying data with FastF1 3.9, which now requires an F1 account with an F1TV Access subscription. They have not been fully tested with the retrained model, so `notebooks/predict.ipynb` is the verified way to run predictions.
 
 ## Future improvements
 

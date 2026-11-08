@@ -34,10 +34,15 @@ def health():
 
 @app.get("/races")
 def get_races():
-    return list(predictor.RACE_TO_CIRCUIT.key())
+    return list(predictor.RACE_TO_CIRCUIT.keys())
 
 @app.post("/predict", response_model=PredictResponse)
 def predict(request: PredictRequest):
+    if bundle is None:
+        raise HTTPException(
+            status_code = 503,
+            detail = "Model is not loaded. Check the server log for the loading error."
+        )
     if request.race_name not in predictor.RACE_TO_CIRCUIT:
         raise HTTPException(
             status_code = 400,
